@@ -13,5 +13,17 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 mongoose.connect(MONGODB_URI);
 // set port to local host 3000
 var PORT = 3000;
+// parse request body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+// make public a static folder
+app.use(express.static('public'));
 
 /* ROUTES */
+
+
+
+/* START THE SERVER */
+app.listen(PORT, function(){
+    console.log(`Listening on ${PORT}!`);
+});
