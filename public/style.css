@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Sarpanch&display=swap');
+
+#header {
+    background-image: url('images/banner.jpg');
+    background-size: cover;
+}
+
+#title, #title-text {
+    color: #fff;
+}
+
+#title {
+    font-family: 'Sarpanch', sans-serif;
+    font-weight: 900;
+}
+
+.btn-secondary {
+    background-color: #919164;
+    border: none;
+}
