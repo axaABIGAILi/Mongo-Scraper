@@ -1,4 +1,5 @@
-// module integrations
+/* MODULE INTEGRATION AND SERVER SETUP */
+// module integration
 var mongoose = require('mongoose');
 var express = require('express');
 var axios = require('axios');
@@ -12,3 +13,5 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 mongoose.connect(MONGODB_URI);
 // set port to local host 3000
 var PORT = 3000;
+
+/* ROUTES */
