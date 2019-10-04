@@ -1,4 +1,14 @@
+/* TITLE FONT */
 @import url('https://fonts.googleapis.com/css?family=Sarpanch&display=swap');
+
+/* COLOR PALETTE VARIABLES */
+:root {
+    --maroon: #3D0806;
+    --firebrick: #C01B13;
+    --beige: #E9DACA;
+    --saddlebrown: #851F19;
+    --greengray: #919164;
+}
 
 #header {
     background-image: url('images/banner.jpg');
@@ -6,7 +16,7 @@
 }
 
 #title, #title-text {
-    color: #fff;
+    color: white;
 }
 
 #title {
@@ -15,6 +25,15 @@
 }
 
 .btn-secondary {
-    background-color: #919164;
-    border: none;
+    background-color: var(--greengray);
+    border: 1px solid var(--greengray);
+}
+
+.card-header {
+    background-color: var(--saddlebrown);
+    color: white;
+}
+
+.scrape-image {
+    background-size: cover;
 }
