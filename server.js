@@ -34,12 +34,12 @@ app.get('/scrape', function(req, res){
         // grab all of the article entries off the home page
         $('.infinite-post').each(function (i, element) {
             // for each corresponding entry, store the relevant data into an object
-            let result = {
-                title: $(this).children('h2').text(),
-                category: $(this).children('.mvp-main-blog-cat').text(),
-                url: $(this).children('a').href(),
-                image: $(this).children('img').attr('src')
-            }
+            let result = {};
+            result.title = $(this).children('h2').text();
+            result.category = $(this).children('.mvp-main-blog-cat').text();
+            result.url = $(this).children('a').attr('href');
+            result.image = $(this).children('img').attr('src');
+            console.log(result);
             // push object into database
             db.Article.create(result)
             .then(function(dbArticle, err){

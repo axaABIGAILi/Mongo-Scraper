@@ -1,10 +1,12 @@
+$(document).ready(function (){
+
 /* VARIABLE DECLARATIONS */
 var saved = [];
 
 /* PAGE FUNCTIONALITY */
 
 // get all of the data from our articles route
-$.getJSON('/articles', function(data){
+$.get('/articles', function(data){
     // loop over data array to append to #scrapes column
     for (var i = 0; i < data.length; i++) {
         $('#scrapes').append(`<div class="card mb-3">
@@ -23,7 +25,14 @@ $.getJSON('/articles', function(data){
     }
 });
 
-// button click event for saving an article
-$('#save').on('click', function(){
+// button click event for scraping articles
+$(document).on('click', '#newArticles', function(){
     console.log($(this));
+});
+
+// button click event for saving an article
+$(document).on('click', '#save', function(){
+    console.log($(this));
+});
+
 });
