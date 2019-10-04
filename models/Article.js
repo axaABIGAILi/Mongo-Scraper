@@ -4,13 +4,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ArticleSchema = new Schema({
-    headline: {
+    title: {
         type: String,
         required: true},
-    summary: {
+    category: {
         type: String,
         required: true},
-    photoUrl: String,
+    image: String,
     url: {
         type: String,
         required: true}

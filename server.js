@@ -71,10 +71,10 @@ app.get('/articles/:id', function (req, res){
 
 // put route to update comments/notes for an article
 app.post('/articles/:id', function(req, res){
-    db.Note.create(req.body)
-    .then(function(dbNote, err){
+    db.Comment.create(req.body)
+    .then(function(dbComment, err){
         if (err) { console.log(err) }
-        db.Article.findOneAndUpdate({_id: req.params.id}, {note: db.Note_id}, {new: true});
+        db.Article.findOneAndUpdate({_id: req.params.id}, {note: db.Comment._id}, {new: true});
     })
     .then (function(dbArticle, err){
         if (err) { console.log(err) }

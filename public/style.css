@@ -24,6 +24,11 @@
     font-weight: 900;
 }
 
+.btn-primary {
+    background-color: var(--firebrick);
+    border: 1px solid var(--firebrick);
+}
+
 .btn-secondary {
     background-color: var(--greengray);
     border: 1px solid var(--greengray);
