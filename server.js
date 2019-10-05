@@ -35,20 +35,28 @@ app.get('/scrape', function(req, res){
         $('.infinite-post').each(function (i, element) {
             // for each corresponding entry, store the relevant data into an object
             let result = {};
-            result.title = $(this).children('h2').text();
-            result.category = $(this).children('.mvp-main-blog-cat').text();
-            result.url = $(this).children('a').attr('href');
-            result.image = $(this).children('img').attr('src');
+            // title is the h2 tag
+            result.title = $(element).children('h2').text();
+            // category is in the mvp-main-blog-cat class
+            result.category = $(element).children('h3').text();
+            // url is in the a tag
+            result.url = $(element).children('a').attr('href');
+            // img url is in the img tag
+            result.image = $(element).children('img').attr('src');
             console.log(result);
             // push object into database
-            db.Article.create(result)
-            .then(function(dbArticle, err){
-                if (err) { console.log(err) }
+            //db.Article.create(result)
+        })
+            /*push into our results array
+            resultArray.push(result)
+            .then(function(dbArticle){
                 console.log(dbArticle);
+            })*/
+            .catch(function(err){
+                console.log(err);
             });
         });
     });
-});
 
 // all articles route
 app.get('/articles', function(req, res){
