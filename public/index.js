@@ -1,21 +1,22 @@
 $(document).ready(function (){
 
 /* VARIABLE DECLARATIONS */
-var saved = [];
+var savedArticles = [];
 
 /* HOME PAGE FUNCTIONALITY */
 
 // get all of the data from our articles route
-$.get('/scrape', function(data){
+$.get('/articles', function(data){
     // loop over data array to append to #scrapes column
-    for (var i = 0; i < data.length; i++) {
+    // limit to 12
+    for (var i = 0; i < 12; i++) {
         $('#scrapes').append(`<div class="card mb-3">
         <div class="row no-gutters">
           <div class="col-md-4 scrape-image" style="background-image:url('${data[i].image}');">
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title">${data[i].title}</h5>
+              <h5 class="card-title"><a class="scrapeLink" href="${data[i].url}">${data[i].title}</a></h5>
               <p class="card-text">${data[i].category}</p>
               <button class="btn btn-primary save" data-id=${data[i]._id}>Save Article</button>
             </div>
@@ -23,23 +24,29 @@ $.get('/scrape', function(data){
         </div>
       </div>`);
     }
+}).catch(function(error){
+    console.log(error)
 });
 
 // button click event for saving an article
 $(document).on('click', '.save', function(){
-    let savedID = $(this).attr('data-id');
-    let thisURL = '/save/'+savedID;
-    $.get(thisURL, function(data, error){
-        if (error) { console.log(error) }
-        saved.push(data);
+    let savedID = $(this).data('id');
+    //let thisURL = '/save/'+savedID;
+    $.get('/save/'+savedID, function(data, error){
+       // if (error) { console.log(error) }
     })
-    .then(function(){
-        alert('This article has been saved!')
+    .then(function(data){
+        console.log(data)
+        savedArticles.push(data)
+       //alert('This article has been saved!');
+    })
+    .catch(function(error){
+       if (error) {console.log(error)}
     });
 });
 
 /* SAVED PAGE FUNCTIONALITY */
-
+/*
 // render saved articles
 $.get('/articles', function(data){
     for (let i=0; i < data.length; i++) {
@@ -90,7 +97,7 @@ $.get('/articles', function(data){
         }
     }
 });
-
+*/
 // on click functionality to display an article's comments
 $(document).on('click', '.comment', function(){
     let commentID = $(this).attr('data-id');
