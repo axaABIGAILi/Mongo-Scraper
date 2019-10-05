@@ -13,6 +13,8 @@ const app = express();
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(MONGODB_URI);
+// used to avoid deprecation issues
+mongoose.set('useFindAndModify', false);
 // set port to local host 3000
 var PORT = 3000;
 // parse request body as JSON
@@ -119,17 +121,17 @@ app.put('/unsave/:id', function(req, res){
     });
 });
 
-// article by id route to populate particular articles with notes
+// article by id route to populate particular articles with comments
 app.get('/articles/:id', function (req, res){
     db.Article.findOne({_id: req.params.id})
-    .populate('note')
+    .populate('comment')
     .then(function(dbArticle, err){
         if (err) { console.log(err) }
         res.json(dbArticle);
     });
 });
 
-// put route to update comments/notes for an article
+// post route to update comments/notes for an article
 app.post('/articles/:id', function(req, res){
     db.Comment.create(req.body)
     .then(function(dbComment, err){

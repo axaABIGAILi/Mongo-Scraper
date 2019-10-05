@@ -80,7 +80,8 @@ $.get('/articles', function(data){
                     </div>
                     <div class="modal-body">
                     <div class="notes" data-id="${data[i]._id}Notes"></div>
-                    <textarea class="form-control" aria-label="With textarea" placeholder="Add a comment of your own"></textarea>
+                    <input class="form-control mb-2" aria-label="With textarea" placeholder="Title" id="${data[i]._id}Title"></input>
+                    <textarea class="form-control" aria-label="With textarea" placeholder="Add a comment of your own" id="${data[i]._id}Body"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary commentSubmit" data-id="${data[i]._id}">Submit</button> 
@@ -105,7 +106,36 @@ $(document).on('click', '.comment', function(){
     let commentID = $(this).attr('data-id');
     console.log(commentID);
     $(`#${commentID}`).modal('toggle');
+    $.get('/articles/:id', function(data){
+        if (data.comment) {
+            for (let i=0; i < data.comment.length; i++) {
+            $(`#${commentID}Notes`).append(`<h5>${data.comment[i].title}</h5>
+            <p>${data.comment[i].body}</p> <button class="btn btn-secondary" data-id=${data.comment[i]._id}>X</button> <hr>`);
+            }
+        }
+    });
 
+});
+
+// on click functionality to submit a new comment
+$(document).on('click', '.commentSubmit', function(){
+    let commentID = $(this).data('id');
+    let newComment = {};
+    newComment.title = $(`#${commentID}Title`).val();
+    newComment.body = $(`#${commentID}Body`).val();
+    console.log(newComment);
+
+    $.ajax({
+        url: '/articles/'+commentID,
+        method: 'POST',
+        data: newComment,
+        success: function(data) {
+            console.log(data)
+        },
+        error: function(err) {
+            console.log(err)
+        }
+    });
 });
 
 // on click functionality to delete an article
