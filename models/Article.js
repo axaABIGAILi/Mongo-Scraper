@@ -13,7 +13,12 @@ var ArticleSchema = new Schema({
     image: String,
     url: {
         type: String,
-        required: true}
+        required: true},
+    isSaved: {
+        type: Boolean,
+        defualt: false,
+        required: true
+    }
 });
 // build Article model
 var Article = mongoose.model('Article', ArticleSchema);

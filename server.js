@@ -54,6 +54,8 @@ app.get('/scrape', function(req, res) {
             result.url = $(element).children('a').attr('href');
             // img url is in the img tag
             result.image = $(element).closest('img').attr('src');
+            // result.isSaved is false by default
+            result.isSaved = false;
             console.log(result);
             // push object into database
             db.Article.create(result)
@@ -66,13 +68,21 @@ app.get('/scrape', function(req, res) {
             console.log(err);
             });
         });
-
-        res.send("scrape complete");
+        res.sendFile(path.join(__dirname+'/public/index.html'));
     })
     .catch(function(err){
         console.log(err);
-        res.send("scrape error");
+        res.send("Scrape error.");
     });
+});
+
+// clear route
+app.get('/clear', function(req, res){
+    db.Article.remove({})
+    .then(function(err){
+        if (err) { console.log(err) }
+        res.sendFile(path.join(__dirname+'index.html'));
+        });
 });
 
 // all articles route
@@ -87,8 +97,20 @@ app.get('/articles', function(req, res){
 });
 
 // save route to save a particular article
-app.get('/save/:id', function (req, res){
-    db.Article.findOne({_id: req.params.id})
+app.put('/save/:id', function (req, res){
+    db.Article.findByIdAndUpdate({_id: req.params.id}, {isSaved: req.body.data})
+    .then(function(dbArticle){
+        res.json(dbArticle);
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+});
+
+// route to "delete" from saved (aka change the boolean back to unsaved)
+app.put('/unsave/:id', function(req, res){
+    db.Article.findByIdAndUpdate({_id: req.params.id}, 
+        {isSaved: req.body.data})
     .then(function(dbArticle){
         res.json(dbArticle);
     })

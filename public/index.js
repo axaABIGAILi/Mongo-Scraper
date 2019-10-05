@@ -1,7 +1,7 @@
-$(document).ready(function (){
-
 /* VARIABLE DECLARATIONS */
-var savedArticles = [];
+//var savedArticles = [];
+
+$(document).ready(function (){
 
 /* HOME PAGE FUNCTIONALITY */
 
@@ -32,42 +32,43 @@ $.get('/articles', function(data){
 $(document).on('click', '.save', function(){
     let savedID = $(this).data('id');
     //let thisURL = '/save/'+savedID;
-    $.get('/save/'+savedID, function(data, error){
-       // if (error) { console.log(error) }
-    })
-    .then(function(data){
-        console.log(data)
-        savedArticles.push(data)
-       //alert('This article has been saved!');
-    })
-    .catch(function(error){
-       if (error) {console.log(error)}
+    $.ajax({
+        url: '/save/'+savedID,
+        method: 'PUT',
+        data: true,
+        success: function(data, status) {
+            console.log(`Status: ${status}, data: ${data}`);
+        },
+        error: function(error) {
+            console.log(`Error: ${error}`);
+        }
     });
 });
 
 /* SAVED PAGE FUNCTIONALITY */
-/*
+
 // render saved articles
 $.get('/articles', function(data){
-    for (let i=0; i < data.length; i++) {
+    console.log(data); 
+   for (let i=0; i < data.length; i++) {
         // loop through all articles and check if the id of an article is present in the saved array, if it is, render the article
-        if (data[i]._id === saved[i]._id) { 
-            $('#savedArticles').append(`<div class="card mb-3">
+        if (data[i].isSaved) { 
+            $('#savedArticles').append(`<div class="card mb-3" id="${data[i]._id}Card">
                 <div class="row no-gutters">
-                <div class="col-md-4 scrape-image" style="background-image:url('${saved[i].image}');">
+                <div class="col-md-4 scrape-image" style="background-image:url('${data[i].image}');">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                    <h5 class="card-title">${saved[i].title}</h5>
-                    <p class="card-text">${saved[i].category}</p>
-                    <button class="btn btn-primary comment" data-toggle="modal" data-target="#${saved[i]._id}Modal" data-id=${saved[i]._id}>Comments</button> <button class="btn btn-secondary commentdelete" data-id="${saved[i]._id}">X</button>
+                    <h5 class="card-title">${data[i].title}</h5>
+                    <p class="card-text">${data[i].category}</p>
+                    <button class="btn btn-primary comment" data-toggle="modal" data-target="#${data[i]._id}Modal" data-id=${data[i]._id}>Comments</button> <button class="btn btn-secondary commentdelete" data-id="${data[i]._id}">X</button>
                     </div>
                 </div>
                 </div>
             </div>
             
             <!-- Modal -->
-                <div class="modal fade" id="${saved[i]._id}" tabindex="-1" role="dialog" aria-labelledby="commentModal" aria-hidden="true">
+                <div class="modal fade" id="${data[i]._id}" tabindex="-1" role="dialog" aria-labelledby="commentModal" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
@@ -77,11 +78,11 @@ $.get('/articles', function(data){
                         </button>
                     </div>
                     <div class="modal-body">
-                    <div class="notes" data-id="${saved[i]._id}Modal"></div>
+                    <div class="notes" data-id="${data[i]._id}Modal"></div>
                     <textarea class="form-control" aria-label="With textarea" placeholder="Add a comment of your own"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary commentSubmit" data-id="${saved[i]._id}">Submit</button> 
+                        <button type="submit" class="btn btn-primary commentSubmit" data-id="${data[i]._id}">Submit</button> 
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                     </div>
@@ -96,12 +97,30 @@ $.get('/articles', function(data){
             );
         }
     }
-});
-*/
+} );
+
 // on click functionality to display an article's comments
 $(document).on('click', '.comment', function(){
     let commentID = $(this).attr('data-id');
+    console.log(commentID);
+});
 
+// on click functionality to delete an article
+$(document).on('click', '.commentdelete', function(){
+    let deleteID = $(this).data('id')
+    $.ajax({
+        url: '/unsave/'+deleteID,
+        method: 'PUT',
+        data: false,
+        success: function(data, status) {
+            console.log(`Status: ${status}, data: ${data}`);
+        },
+        error: function(error) {
+            console.log(`Error: ${error}`);
+        }
+    })
+    // remove element from the dom
+    $(`#${deleteID}Card`).remove();
 });
 
 });
