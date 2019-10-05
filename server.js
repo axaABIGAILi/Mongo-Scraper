@@ -38,32 +38,29 @@ app.get('/scrape', function(req, res){
     // axios call to get the entire home page to be scraped
     axios.get('http://tokusatsunetwork.com/')
     .then(function(response){
-        // storing cheerio into a $ variable to make reference easier
-        let $ = cheerio.load(response.data);
-        // create an empty array for results
-        let resultArray = [];
-        // grab all of the article entries off the home page
-        $('li .infinite-post').each(function (i, element) {
-            // for each corresponding entry, store the relevant data into an object
-            let result = {};
-            // title is the h2 tag
-            result.title = $(element).children('h2').text();
-            // category is in the mvp-main-blog-cat class
-            result.category = $(element).children('h3').text();
-            // url is in the a tag
-            result.url = $(element).children('a').attr('href');
-            // img url is in the img tag
-            result.image = $(element).children('img').attr('src');
-            console.log(result);
-            // push object into database
-            db.Article.create(result)
+            // storing cheerio into a $ variable to make reference easier
+            let $ = cheerio.load(response.data);
+            // create an empty array for results
+            let resultArray = [];
+            // grab all of the article entries off the home page
+            $('li .infinite-post').each(function (i, element) {
+                // for each corresponding entry, store the relevant data into an object
+                let result = {};
+                // title is the h2 tag
+                result.title = $(element).children('h2').text();
+                // category is in the mvp-main-blog-cat class
+                result.category = $(element).children('h3').text();
+                // url is in the a tag
+                result.url = $(element).children('a').attr('href');
+                // img url is in the img tag
+                result.image = $(element).children('img').attr('src');
+                console.log(result);
+                // push object into database
+                db.Article.create(result)
+            });
         })
-        .then(function(dbArticle){
-            console.log(dbArticle);
-        })
-        .catch(function(err){
-            console.log(err);
-        });
+        .catch(function(error){
+            console.log(error)
         });
     });
 
