@@ -56,16 +56,14 @@ app.get('/scrape', function(req, res){
             result.image = $(element).children('img').attr('src');
             console.log(result);
             // push object into database
-            //db.Article.create(result)
+            db.Article.create(result)
         })
-            /*push into our results array
-            resultArray.push(result)
-            .then(function(dbArticle){
-                console.log(dbArticle);
-            })*/
-            .catch(function(err){
-                console.log(err);
-            });
+        .then(function(dbArticle){
+            console.log(dbArticle);
+        })
+        .catch(function(err){
+            console.log(err);
+        });
         });
     });
 
@@ -78,7 +76,7 @@ app.get('/articles', function(req, res){
     });
 });
 
-// save route to save a particular note
+// save route to save a particular article
 app.get('/save/:id', function (req, res){
     db.Article.findOne({_id: req.params.id})
     .then(function(dbArticle){
