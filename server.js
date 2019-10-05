@@ -97,8 +97,8 @@ app.get('/articles', function(req, res){
 });
 
 // save route to save a particular article
-app.put('/save/:id', function (req, res){
-    db.Article.findByIdAndUpdate({_id: req.params.id}, {isSaved: req.body.data})
+app.post('/save/:id', function (req, res){
+    db.Article.findByIdAndUpdate({_id: req.params.id}, {$set :{isSaved: true}}, {new: true})
     .then(function(dbArticle){
         res.json(dbArticle);
     })

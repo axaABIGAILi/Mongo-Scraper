@@ -34,10 +34,10 @@ $(document).on('click', '.save', function(){
     //let thisURL = '/save/'+savedID;
     $.ajax({
         url: '/save/'+savedID,
-        method: 'PUT',
+        method: 'POST',
         data: true,
         success: function(data, status) {
-            console.log(`Status: ${status}, data: ${data}`);
+            console.log(`Status: ${status}, data: ${data.isSaved}`);
         },
         error: function(error) {
             console.log(`Error: ${error}`);
@@ -111,7 +111,7 @@ $(document).on('click', '.commentdelete', function(){
     $.ajax({
         url: '/unsave/'+deleteID,
         method: 'PUT',
-        data: false,
+        data: {isSaved: false},
         success: function(data, status) {
             console.log(`Status: ${status}, data: ${data}`);
         },
