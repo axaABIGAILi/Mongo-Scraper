@@ -79,7 +79,7 @@ $.get('/articles', function(data){
                         </button>
                     </div>
                     <div class="modal-body">
-                    <div class="notes" data-id="${data[i]._id}Notes"></div>
+                    <div class="notes" data-id="${data[i]._id}Notes"></div><hr>
                     <input class="form-control mb-2" aria-label="With textarea" placeholder="Title" id="${data[i]._id}Title"></input>
                     <textarea class="form-control" aria-label="With textarea" placeholder="Add a comment of your own" id="${data[i]._id}Body"></textarea>
                     </div>
@@ -107,12 +107,17 @@ $(document).on('click', '.comment', function(){
     console.log(commentID);
     $(`#${commentID}`).modal('toggle');
     $.get('/articles/:id', function(data){
+        console.log(data);
         if (data.comment) {
             for (let i=0; i < data.comment.length; i++) {
             $(`#${commentID}Notes`).append(`<h5>${data.comment[i].title}</h5>
             <p>${data.comment[i].body}</p> <button class="btn btn-secondary" data-id=${data.comment[i]._id}>X</button> <hr>`);
             }
-        }
+        } 
+    })
+    .then(function(data, err){
+        if (err) {console.log(err)}
+        console.log(data);
     });
 
 });
@@ -135,6 +140,11 @@ $(document).on('click', '.commentSubmit', function(){
         error: function(err) {
             console.log(err)
         }
+    })
+    .then(function(){
+        $(`#${commentID}Title`).empty();
+        $(`#${commentID}Body`).empty();
+        $(`#${commentID}`).modal('hide');
     });
 });
 
