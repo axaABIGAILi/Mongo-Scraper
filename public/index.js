@@ -38,6 +38,7 @@ $(document).on('click', '.save', function(){
         data: true,
         success: function(data, status) {
             console.log(`Status: ${status}, data: ${data.isSaved}`);
+            alert('Article saved!')
         },
         error: function(error) {
             console.log(`Error: ${error}`);
@@ -78,7 +79,7 @@ $.get('/articles', function(data){
                         </button>
                     </div>
                     <div class="modal-body">
-                    <div class="notes" data-id="${data[i]._id}Modal"></div>
+                    <div class="notes" data-id="${data[i]._id}Notes"></div>
                     <textarea class="form-control" aria-label="With textarea" placeholder="Add a comment of your own"></textarea>
                     </div>
                     <div class="modal-footer">
@@ -103,6 +104,8 @@ $.get('/articles', function(data){
 $(document).on('click', '.comment', function(){
     let commentID = $(this).attr('data-id');
     console.log(commentID);
+    $(`#${commentID}`).modal('toggle');
+
 });
 
 // on click functionality to delete an article
