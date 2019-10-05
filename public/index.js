@@ -3,7 +3,7 @@ $(document).ready(function (){
 /* VARIABLE DECLARATIONS */
 var saved = [];
 
-/* PAGE FUNCTIONALITY */
+/* HOME PAGE FUNCTIONALITY */
 
 // get all of the data from our articles route
 $.get('/articles', function(data){

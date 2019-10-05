@@ -10,6 +10,10 @@
     --greengray: #919164;
 }
 
+a, a:hover {
+    color: white;
+}
+
 #header {
     background-image: url('images/banner.jpg');
     background-size: cover;

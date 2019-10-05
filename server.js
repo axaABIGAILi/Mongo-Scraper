@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const path = require('path');
 // require all models
 const db = require('./models');
 // express initialization
@@ -21,6 +22,16 @@ app.use(express.json());
 app.use(express.static('public'));
 
 /* ROUTES */
+
+// send users to the home page if they click the homebutton on saved.html
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname+'index.html'));
+});
+
+// send users to the saved page if they navigate to /saved
+app.get('/saved', function(req, res){
+    res.sendFile(path.join(__dirname+'/public/saved.html'));
+});
 
 // scrape route
 app.get('/scrape', function(req, res){
