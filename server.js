@@ -78,6 +78,17 @@ app.get('/articles', function(req, res){
     });
 });
 
+// save route to save a particular note
+app.get('/save/:id', function (req, res){
+    db.Article.findOne({_id: req.params.id})
+    .then(function(dbArticle){
+        res.json(dbArticle);
+    })
+    .catch(function(err){
+        console.log(err);
+    });
+});
+
 // article by id route to populate particular articles with notes
 app.get('/articles/:id', function (req, res){
     db.Article.findOne({_id: req.params.id})
