@@ -1,0 +1,53 @@
+<!DOCTYPE html><html>
+    <head>
+        <title>TokusScraper</title>
+        <!--Bootstrap integration-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <!--Jumbotron-->
+        <div id="header" class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 id="title"><i>TokuScraper</i></h1>
+                <p id="title-text">A Mongo Scraper for Tokusatsu news!</p>
+                <button id="newArticles" class="btn btn-secondary">Scrape Articles</button>
+                <button id="saved" class="btn btn-secondary">Saved Articles</button> 
+            </div>
+        </div>
+        <!--Card contents-->
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div id="savedcard" class="card mb-3 bg-primary text-white text-center">
+                        <div class="card-text"><h5 class="card-title mt-2">Your Saved Articles</h5></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="col" id="scrapes">
+                        <div class="card mb-3">
+                            <div class="row no-gutters">
+                              <div class="col-md-4 scrape-image" style="background-image:url('http://lorempixel.com/output/sports-q-c-200-200-1.jpg');">
+                              </div>
+                              <div class="col-md-8">
+                                <div class="card-body">
+                                  <h5 class="card-title">Card title</h5>
+                                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                  <button class="btn btn-primary articlesave">Save Article</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+            </div>
+        </div>
+
+    <!--script integration-->
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

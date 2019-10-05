@@ -32,7 +32,7 @@ app.get('/scrape', function(req, res){
         // create an empty array for results
         let resultArray = [];
         // grab all of the article entries off the home page
-        $('.infinite-post').each(function (i, element) {
+        $('li .infinite-post').each(function (i, element) {
             // for each corresponding entry, store the relevant data into an object
             let result = {};
             // title is the h2 tag
