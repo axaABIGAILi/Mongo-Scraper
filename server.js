@@ -124,13 +124,13 @@ app.put('/unsave/:id', function(req, res){
 // article by id route to populate particular articles with comments
 app.get('/articles/:id', function (req, res){
     db.Article.findOne({_id: req.params.id})
-    .populate('Comment')
+    .populate('comments')
     .then(function(dbArticle){
-        res.json(dbArticle);
         console.log(dbArticle);
+        res.json(dbArticle);
     })
     .catch(function(error){
-        return error
+        console.log(error);
     });
 });
 
@@ -139,7 +139,7 @@ app.post('/articles/:id', function(req, res){
     db.Comment.create(req.body)
     .then(function(dbComment, err){
         if (err) { return err }
-        db.Article.findOneAndUpdate({_id: req.params.id}, {note: db.Comment._id}, {new: true});
+        db.Article.findOneAndUpdate({_id: req.params.id}, {comment: dbComment._id}, {new: true});
     })
     .then (function(dbArticle, err){
         if (err) { console.log(err) }

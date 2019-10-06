@@ -106,7 +106,7 @@ $(document).on('click', '.comment', function(){
     let commentID = $(this).attr('data-id');
     console.log(commentID);
     $(`#${commentID}`).modal('toggle');
-    $.get('/articles/:id', function(data){
+    $.get('/articles/'+commentID, function(data){
         console.log(data);
         if (data.comment) {
             for (let i=0; i < data.comment.length; i++) {
