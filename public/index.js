@@ -94,8 +94,8 @@ $.get('/articles', function(data){
         // if there are comments, append them to the modal
         if (data[i].comment) {
             $(`#${data[i]._id}Notes`).append(
-                `<div data-id="${data[i]._id}" class="comment"><h5>${data[i].title}</h5>
-                <p>${data[i].body}</p></div<hr>`
+                `<div id="${data[i]._id}Comment" data-id="${data[i]._id}" class="comment"><h5>${data[i].title}</h5>
+                <p>${data[i].body}</p></div><hr>`
             );
         }
     }
@@ -106,15 +106,18 @@ $(document).on('click', '.comment', function(){
     let commentID = $(this).attr('data-id');
     console.log(commentID);
     $(`#${commentID}`).modal('toggle');
+    // empty the div before repopulating it
+    $(`#${commentID}Notes`).empty();
     $.get('/articles/'+commentID, function(data){
         console.log(data);
-        if (data.comment) {
-            for (let i=0; i < data.comment.length; i++) {
-            $(`#${commentID}Notes`).append(`<h5>${data.comment[i].title}</h5>
-            <p>${data.comment[i].body}</p> <button class="btn btn-secondary" data-id=${data.comment[i]._id}>X</button> <hr>`);
+        //if (data.comment) {
+           // for (let i=0; i < data.comment.length; i++) {
+            $(`#${commentID}Notes`).append(`<h5>${data.comment.title}</h5>
+            <p>${data.comment.body}</p> <button class="btn btn-secondary commentdelete" data-id=${data.comment._id} data-commentid="${commentID}" type="submit">X</button> <hr>`);
             }
-        } 
-    })
+       // } 
+    //}
+    )
     .then(function(data, err){
         if (err) {console.log(err)}
         console.log(data);
@@ -142,14 +145,32 @@ $(document).on('click', '.commentSubmit', function(){
         }
     })
     .then(function(){
-        $(`#${commentID}Title`).empty();
-        $(`#${commentID}Body`).empty();
+        $(`#${commentID}Title`).val('');
+        $(`#${commentID}Body`).val('');
         $(`#${commentID}`).modal('hide');
     });
+    $(`#${commentID}Title`).val('');
+    $(`#${commentID}Body`).val('');
+    $(`#${commentID}`).modal('hide');
+});
+
+// on click functionality to delete a comment
+$(document).on('click', '.commentdelete', function(){
+    let deleteID = $(this).data('id');
+    let modalID = $(this).data('commentid');
+    $.ajax({
+        url: '/delete/'+deleteID,
+        method: 'DELETE'
+    })
+    .then(function(err){
+        if(err) {console.log(err)} 
+        $(`#${deleteID}Notes`).empty();
+    });
+    $(`#${modalID}`).modal('hide');
 });
 
 // on click functionality to delete an article
-$(document).on('click', '.commentdelete', function(){
+$(document).on('click', '.articledelete', function(){
     let deleteID = $(this).data('id')
     $.ajax({
         url: '/unsave/'+deleteID,

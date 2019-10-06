@@ -124,7 +124,7 @@ app.put('/unsave/:id', function(req, res){
 // article by id route to populate particular articles with comments
 app.get('/articles/:id', function (req, res){
     db.Article.findOne({_id: req.params.id})
-    .populate('comments')
+    .populate('comment')
     .then(function(dbArticle){
         console.log(dbArticle);
         res.json(dbArticle);
@@ -138,8 +138,13 @@ app.get('/articles/:id', function (req, res){
 app.post('/articles/:id', function(req, res){
     db.Comment.create(req.body)
     .then(function(dbComment, err){
-        if (err) { return err }
-        db.Article.findOneAndUpdate({_id: req.params.id}, {comment: dbComment._id}, {new: true});
+        if (err) { console.log(err); }
+        db.Article.findOneAndUpdate({_id: req.params.id}, 
+            {comment: dbComment._id}, {new: true})
+        .then(function(dbArticle){
+            console.log(dbArticle);
+            res.json(dbArticle);
+        })
     })
     .then (function(dbArticle, err){
         if (err) { console.log(err) }
@@ -147,6 +152,14 @@ app.post('/articles/:id', function(req, res){
     })
     .catch(function(err){
         res.json(err)
+    });
+});
+
+// route to delete a comment
+app.delete('/delete/:id', function(req, res){
+    db.Comment.findByIdAndDelete({_id: req.params.id}, function(err, dbComment){
+        if (err) {res.json(err)}
+        res.json({message: `Comment (${dbComment}) deleted successfully.`});
     });
 });
 
