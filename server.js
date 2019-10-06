@@ -124,8 +124,8 @@ app.put('/unsave/:id', function(req, res){
 // article by id route to populate particular articles with comments
 app.get('/articles/:id', function (req, res){
     db.Article.findOne({_id: req.params.id})
-    .populate('comment')
-    .exec(function(dbArticle){
+    .populate('Comment')
+    .then(function(dbArticle){
         res.json(dbArticle);
         console.log(dbArticle);
     })
@@ -144,6 +144,9 @@ app.post('/articles/:id', function(req, res){
     .then (function(dbArticle, err){
         if (err) { console.log(err) }
         res.json(dbArticle);
+    })
+    .catch(function(err){
+        res.json(err)
     });
 });
 
