@@ -62,7 +62,7 @@ $.get('/articles', function(data){
                     <div class="card-body">
                     <h5 class="card-title">${data[i].title}</h5>
                     <p class="card-text">${data[i].category}</p>
-                    <button class="btn btn-primary comment" data-toggle="modal" data-target="#${data[i]._id}Modal" data-id=${data[i]._id}>Comments</button> <button class="btn btn-secondary commentdelete" data-id="${data[i]._id}">X</button>
+                    <button class="btn btn-primary comment" data-toggle="modal" data-target="#${data[i]._id}Modal" data-id=${data[i]._id}>Comments</button> <button class="btn btn-secondary articledelete" type="submit" data-id="${data[i]._id}">X</button>
                     </div>
                 </div>
                 </div>
