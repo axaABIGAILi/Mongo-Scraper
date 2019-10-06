@@ -83,7 +83,7 @@ app.get('/clear', function(req, res){
     db.Article.remove({})
     .then(function(err){
         if (err) { console.log(err) }
-        res.sendFile(path.join(__dirname+'index.html'));
+        res.sendFile(path.join(__dirname+'/public/index.html'));
         });
 });
 
@@ -125,9 +125,12 @@ app.put('/unsave/:id', function(req, res){
 app.get('/articles/:id', function (req, res){
     db.Article.findOne({_id: req.params.id})
     .populate('comment')
-    .then(function(dbArticle, err){
-        if (err) { console.log(err) }
+    .exec(function(dbArticle){
         res.json(dbArticle);
+        console.log(dbArticle);
+    })
+    .catch(function(error){
+        return error
     });
 });
 
@@ -135,7 +138,7 @@ app.get('/articles/:id', function (req, res){
 app.post('/articles/:id', function(req, res){
     db.Comment.create(req.body)
     .then(function(dbComment, err){
-        if (err) { console.log(err) }
+        if (err) { return err }
         db.Article.findOneAndUpdate({_id: req.params.id}, {note: db.Comment._id}, {new: true});
     })
     .then (function(dbArticle, err){

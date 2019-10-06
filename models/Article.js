@@ -18,6 +18,9 @@ var ArticleSchema = new Schema({
         type: Boolean,
         defualt: false,
         required: true
+    },
+    comment: {
+        type: Schema.Types.ObjectId
     }
 });
 // build Article model

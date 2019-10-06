@@ -79,7 +79,7 @@ $.get('/articles', function(data){
                         </button>
                     </div>
                     <div class="modal-body">
-                    <div class="notes" data-id="${data[i]._id}Notes"></div><hr>
+                    <div class="notes" id="${data[i]._id}Notes"></div><hr>
                     <input class="form-control mb-2" aria-label="With textarea" placeholder="Title" id="${data[i]._id}Title"></input>
                     <textarea class="form-control" aria-label="With textarea" placeholder="Add a comment of your own" id="${data[i]._id}Body"></textarea>
                     </div>
@@ -93,7 +93,7 @@ $.get('/articles', function(data){
             }
         // if there are comments, append them to the modal
         if (data[i].comment) {
-            $(`${data[i]._id}Modal`).append(
+            $(`#${data[i]._id}Notes`).append(
                 `<div data-id="${data[i]._id}" class="comment"><h5>${data[i].title}</h5>
                 <p>${data[i].body}</p></div<hr>`
             );

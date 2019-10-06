@@ -5,10 +5,7 @@ var Schema = mongoose.Schema;
 
 var CommentSchema = new Schema({
     title: String,
-    body: {
-        type: String,
-        required: true
-    }
+    body: String
 });
 // build Comment model
 var Comment = mongoose.model('Comment', CommentSchema);
