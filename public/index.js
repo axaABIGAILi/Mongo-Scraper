@@ -10,6 +10,7 @@ $.get('/articles', function(data){
     // loop over data array to append to #scrapes column
     // limit to 12
     for (var i = 0; i < 12; i++) {
+        if (data[i].isSaved != true) {
         $('#scrapes').append(`<div class="card mb-3">
         <div class="row no-gutters">
           <div class="col-md-4 scrape-image" style="background-image:url('${data[i].image}');">
@@ -23,6 +24,7 @@ $.get('/articles', function(data){
           </div>
         </div>
       </div>`);
+        }
     }
 }).catch(function(error){
     console.log(error)
