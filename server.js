@@ -16,7 +16,7 @@ mongoose.connect(MONGODB_URI, {usedNewUrlParser: true});
 // used to avoid deprecation issues
 mongoose.set('useFindAndModify', false);
 // set port to local host 3000
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 // parse request body as JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
