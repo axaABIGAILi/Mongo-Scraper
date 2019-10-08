@@ -42,20 +42,24 @@ app.get('/scrape', function(req, res) {
     .then(function(response) {
         // storing cheerio into a $ variable to make reference easier
         let $ = cheerio.load(response.data);
+        // for each corresponding entry, store the relevant data into an object
+        let result = {};
+        // grab images off of the home page
+        $('.mvp-main-blog-img').each(function(i, element) {
+            result.image = $(element).children('img').attr('data-permalink');
+            console.log(result.image);
+        });
         // grab all of the article entries off the home page
-        $('.mvp-main-blog-text').each(function (i, element) {
-            
-            // for each corresponding entry, store the relevant data into an object
-            let result = {};
+        $('.mvp-main-blog-out').each(function (i, element) {
             // title is the h2 tag
-            result.title = $(element).children("p").text();
+            result.title = $(element).children('.mvp-main-blog-in').children('.mvp-main-blog-text').children('p').text();
 
             // category is in the mvp-main-blog-cat class
-            result.category = $(element).children('h3').text();
+            result.category = $(element).children('.mvp-main-blog-in').children('.mvp-main-blog-text').children('h3').text();
             // url is in the a tag
             result.url = $(element).children('a').attr('href');
             // img url is in the img tag
-            result.image = $(element).closest('img').attr('src');
+            result.image = $(element).children('a').children('.mvp-main-blog-img').children('img').attr('data-permalink');
             // result.isSaved is false by default
             result.isSaved = false;
             console.log(result);
